@@ -122,4 +122,8 @@ class GameConfiguration {
     public function baseSpinCount(): int {
         return (int) $this->config['base_spin_count'];
     }
+
+    public function initialBalanceCents(): int {
+        return (int) $this->config['initial_balance_cents'];
+    }
 }
