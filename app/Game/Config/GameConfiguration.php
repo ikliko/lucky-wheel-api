@@ -104,4 +104,22 @@ class GameConfiguration {
 
         throw new InvalidArgumentException("Unknown sector id [{$id}].");
     }
+
+    /**
+     * @return list<string>
+     */
+    public function ordinaryLoseIds(): array {
+        return $this->config['ordinary_lose_ids'];
+    }
+
+    /**
+     * @return array<string, float>
+     */
+    public function xWeights(): array {
+        return $this->config['x_weights'];
+    }
+
+    public function baseSpinCount(): int {
+        return (int) $this->config['base_spin_count'];
+    }
 }
