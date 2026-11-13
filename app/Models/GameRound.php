@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -23,12 +23,26 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'balance_after_round_cents',
     'settled_at',
 ])]
-class GameRound extends Model
-{
+class GameRound extends Model {
     use HasUuids;
 
-    protected function casts(): array
-    {
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class);
+    }
+
+    public function gameSession(): BelongsTo {
+        return $this->belongsTo(GameSession::class);
+    }
+
+    public function spinPlan(): BelongsTo {
+        return $this->belongsTo(SpinPlan::class);
+    }
+
+    public function balanceTransactions(): HasMany {
+        return $this->hasMany(BalanceTransaction::class);
+    }
+
+    protected function casts(): array {
         return [
             'outcome' => 'array',
             'plan_index' => 'integer',
@@ -39,25 +53,5 @@ class GameRound extends Model
             'balance_after_round_cents' => 'integer',
             'settled_at' => 'datetime',
         ];
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function gameSession(): BelongsTo
-    {
-        return $this->belongsTo(GameSession::class);
-    }
-
-    public function spinPlan(): BelongsTo
-    {
-        return $this->belongsTo(SpinPlan::class);
-    }
-
-    public function balanceTransactions(): HasMany
-    {
-        return $this->hasMany(BalanceTransaction::class);
     }
 }

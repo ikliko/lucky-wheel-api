@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Models;
@@ -23,33 +22,28 @@ use Laravel\Sanctum\HasApiTokens;
     'password',
     'remember_token',
 ])]
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, HasUuids;
 
-    protected function casts(): array
-    {
+    public function gameSessions(): HasMany {
+        return $this->hasMany(GameSession::class);
+    }
+
+    public function gameRounds(): HasMany {
+        return $this->hasMany(GameRound::class);
+    }
+
+    public function balanceTransactions(): HasMany {
+        return $this->hasMany(BalanceTransaction::class);
+    }
+
+    protected function casts(): array {
         return [
             'is_guest' => 'boolean',
             'balance_cents' => 'integer',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function gameSessions(): HasMany
-    {
-        return $this->hasMany(GameSession::class);
-    }
-
-    public function gameRounds(): HasMany
-    {
-        return $this->hasMany(GameRound::class);
-    }
-
-    public function balanceTransactions(): HasMany
-    {
-        return $this->hasMany(BalanceTransaction::class);
     }
 }
