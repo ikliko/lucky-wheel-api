@@ -126,4 +126,31 @@ class GameConfiguration {
     public function initialBalanceCents(): int {
         return (int) $this->config['initial_balance_cents'];
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function sectorById(string $id): array {
+        foreach ($this->sectors() as $sector) {
+            if ($sector['id'] === $id) {
+                return $sector;
+            }
+        }
+
+        throw new InvalidArgumentException("Unknown sector id [{$id}].");
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function sectorIds(): array {
+        return array_column($this->sectors(), 'id');
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function bonusSymbolIds(): array {
+        return array_keys($this->bonusCollectionMultipliers());
+    }
 }
